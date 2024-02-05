@@ -81,6 +81,37 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 })
 
+// escalate user to publisher or admin (Only admin can do it)
+const upgradeUser = asyncHandler(async (req, res) => {
+    const { userId, role } = req.body
+
+    if(!req?.user) {
+        throw new ApiError(400, "Auth Failed: To provide JWT")
+    }
+
+    if(!userId) {
+        throw new ApiError(400, "Insufficient Data: No userId provided")
+    }
+
+    const user = User.findByIdAndUpdate(
+        userId, 
+        {
+            role,
+        },
+        {
+            new: true
+        }
+    )
+
+    if(!user) {
+        throw new ApiError(400, "Not Found: User Id")
+    }
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, user, "Success: User Upgraded"))
+})
+
 
 const login = asyncHandler( async ( req, res ) => {
     const { email, password } = req.body

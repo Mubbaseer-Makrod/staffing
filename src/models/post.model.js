@@ -22,8 +22,8 @@ const postSchema = new mongoose.Schema({
         index: true 
     },
     location: {
-        type: String,
-        require: true
+        type: 'Point',
+        coordinates: [longitude, latitude]
     },
     jobType: {
         type: String,
@@ -34,6 +34,10 @@ const postSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         require: true
+    },
+    active: {
+        type: Boolean,
+        default: true
     }
 }, { timestamps: true })
 

@@ -20,8 +20,8 @@ const companySchema = new mongoose.Schema({
             lowercase: true
         },
         location: {
-            type: { type: String, default: 'Point' },
-            coordinates: [Number],
+            type: 'Point',
+            coordinates: [longitude, latitude]
         }
     }]
 }, { timestamps: true })
