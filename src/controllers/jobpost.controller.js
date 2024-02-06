@@ -3,13 +3,13 @@ import { ApiError } from "../utils/ApiError";
 import { ApiResponse } from "../utils/ApiResponce";
 import { asyncHandler } from "../utils/asyncHandler";
 
-const getAllPost = asyncHandler(async (res, req) => {
+const getAllActivePost = asyncHandler(async (res, req) => {
     const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query
     //TODO: get all videos based on query, sort, pagination
     const skip = (parseInt(page) - 1) * parseInt(limit)
     console.log(req.query);
 
-    const dynamicQuery = {}
+    const dynamicQuery = { active: true } // only seraching for active 
     if(query) {
         dynamicQuery.title =  new RegExp(query, 'i');
     }
@@ -142,3 +142,5 @@ const deActivePost = asyncHandler(async (req, res) => {
         .status(200)
         .json(new ApiResponse(200, post, "Success: Post is been disabled"))
 })
+
+export { getAllActivePost, getPostById, publishPost, updatePost, deActivePost}
